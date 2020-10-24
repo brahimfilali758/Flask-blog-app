@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+
+    {% if title %}
+        <title>Flask Blog - {{ title }}</title>
+    {% else %}
+        <title>Flask Blog</title>
+    {% endif %}
+</head>
+
+<body>
+  <header>
+    <nav>
+
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="left_side_bar">
+
+      <!--
+
+        left side bar requirements that are gonna be in the all site reoutes.
+
+       -->
+
+
+    </div>
+    <div class="main-content">
+    {% block content %}
+    {% endblock content%}
+    </div>
+    <div class="right_side_bar">
+
+
+      <!--
+
+        right side bar requirements that are gonna be in the all site reoutes.
+
+       -->
+
+    </div>
+  </div>
+</body>
+</html>
