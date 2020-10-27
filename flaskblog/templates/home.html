@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{% block content %}
+    {% for post in posts %}
+        <hr>
+        <div class="card">
+           <div class="card-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-1">
+                        <img class="article-img" src="https://scontent.frba2-2.fna.fbcdn.net/v/t1.0-9/118712475_2629703600601081_1621348115320940204_n.jpg?_nc_cat=1&ccb=2&_nc_sid=09cbfe&_nc_ohc=uwpf_mxD7zsAX96owk2&_nc_oc=AQnOjUOUoVAITIvnvM1Wha12pmqFeJNC9Ltr1kh8LjeH0frbK68ibTS9KZ-s4TGef_U&_nc_ht=scontent.frba2-2.fna&oh=3f331062729d3b4b008ebeaaf3a7ace0&oe=5FBBAD18" alt="..." >
+                    </div>
+                    <div class="col-xl-8">
+                        <a class="username" href="#"><!-- {{post.author.username}} --> Papai</a>
+                    </div>
+                    <div class="col-3">
+                        <a class="btn btn-primary follow-button" style="background-color: #55acee" href="#!" role="button">
+                            Follow
+                        </a>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{post.title}}</h5>
+            <p class="card-text">
+              {{post.content}}
+            </p>
+          </div>
+          <div class="card-footer text-left">
+            <button type="button" class="btn btn-outline-dark" data-ripple-color="dark">I like that</button>
+
+            <h6 class="text-muted text-right">2 days ago</h6>
+            </div>
+        </div>
+
+    {% endfor%}
+{% endblock content %}
