@@ -23,7 +23,7 @@ class User(db.Model ,UserMixin):
 class Post(db.Model ,UserMixin):
     id = db.Column(db.Integer , primary_key = True)
     title = db.Column(db.String(20) , nullable = False )
-    content = db.Column(db.Text, nullable = False )
+    content = db.Column(db.Text, nullable = False )=
     date_posted = db.Column(db.DateTime , default=datetime.utcnow)
     user_id = db.Column(db.Integer , db.ForeignKey('user.id'))
 

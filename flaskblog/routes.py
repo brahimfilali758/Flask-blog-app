@@ -1,4 +1,6 @@
-from os.path import join
+from PIL import Image
+from secrets import token_hex
+from os.path import join , splitext
 from flaskblog import app , bcrypt , db
 from flask import render_template , url_for , flash ,redirect , request
 from flaskblog.forms import RegistrationForm , LoginForm , UpdateAccountForm
@@ -65,20 +67,43 @@ def account():
     return render_template('account.html' , title = 'Account' , image_file = image_file)
 
 
-
 @app.route("/update_account" , methods=['GET','POST'])
 @login_required
 def update_account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
+        if form.picture.data :
+            profile_pic = save_picture(form.picture.data)
+            current_user.image_file = profile_pic
+
         current_user.username = form.username.data
         current_user.email = form.email.data
-        new_hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
-        current_user.password = new_hashed_password
+        if form.new_password.data != '' :
+            new_hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+            current_user.password = new_hashed_password
         db.session.commit()
+        flash('Your Account has been updated succefully !' , 'success')
         return redirect(url_for('account'))
     elif request.method == 'GET' :
         form.username.data = current_user.username
         form.email.data = current_user.email
 
     return render_template('update_account.html' , form = form)
+
+
+def save_picture(form_picture):
+    random_hex = token_hex(8)
+    _ , f_ext = splitext(form_picture.filename)
+    picture_file_name = random_hex + f_ext
+    picture_path = join(app.root_path , 'static/profile_pics' , picture_file_name)
+
+    output_size = (125 , 125)
+    image_scaled = Image.open(form_picture)
+    image_scaled.thumbnail(output_size)
+    image_scaled.save(picture_path)
+
+    return picture_file_name
+
+
+
+
