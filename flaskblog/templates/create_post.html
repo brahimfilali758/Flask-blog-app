@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container">
+    <form method="POST" action="">
+        {{form.hidden_tag()}}
+        <fieldset>
+            <legend>
+                Create a Post Now ! <br>
+            </legend>
+            <div class="form-group">
+                {{form.title.label(class="form-label")}} <br>
+                {{form.title(class="form-control form-control-lg")}}
+            </div>
+            <div class="form-group">
+                {{form.content.label(class="form-label")}} <br>
+                {{form.content(class="form-control form-control-lg")}}
+            </div>
+            <div class="form-group">
+                {{form.submit(class="btn btn-outline-info")}}
+            </div>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}

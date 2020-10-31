@@ -1,0 +1,20 @@
+.profile{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 50px ;
+    grid-template-areas: "profile_name profile_picture";
+    background: red;
+
+}
+
+.profile_picture {
+    max-width: 50px;
+    height: auto;
+    grid-area: profile_picture;
+    border-radius: 50%;
+}
+
+.profile_name{
+    grid-area: profile_name;
+}
+

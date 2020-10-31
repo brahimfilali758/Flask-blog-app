@@ -3,15 +3,17 @@ from secrets import token_hex
 from os.path import join , splitext
 from flaskblog import app , bcrypt , db
 from flask import render_template , url_for , flash ,redirect , request
-from flaskblog.forms import RegistrationForm , LoginForm , UpdateAccountForm
+from flaskblog.forms import RegistrationForm , LoginForm , UpdateAccountForm , CreatePostForm
 from flaskblog.models import User , Post
 from flask_login import login_user , logout_user , current_user , login_required
 
 @app.route("/")
 @app.route("/home")
+@login_required
 def home():
     posts = Post.query.all()
-    return render_template('home.html' , title = "Home page" , posts = posts )
+    image_file = url_for('static', filename=join('profile_pics',current_user.image_file))
+    return render_template('home.html' , title = "Home page" , posts = posts , image_file = image_file)
 
 
 @app.route("/about")
@@ -105,5 +107,17 @@ def save_picture(form_picture):
     return picture_file_name
 
 
-
+@app.route("/create_post" , methods=['GET','POST'])
+@login_required
+def create_post():
+    form = CreatePostForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        content = form.content.data
+        post = Post(title = title , content = content , user_id = current_user.id)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post has been published succefully !' , 'success')
+        return redirect(url_for('home'))
+    return render_template('create_post.html' ,title= 'Create a Post Now !', form = form)
 
