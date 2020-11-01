@@ -8,8 +8,9 @@
 {% block content %}
 <div class="row">
     <div class="col-md-3">
+    {% if current_user.is_authenticated %}
         <div class="profile">
-            <img class="profile_picture" src="{{ image_file }} ">
+            <img class="profile_picture" src="{{url_for('static', filename='profile_pics/'+current_user.image_file)}} ">
             <a class="profile_name" href="">
                 {{current_user.username}}
             </a>
@@ -18,10 +19,10 @@
         <div>
             <a href="{{ url_for('create_post') }}">
                 <div class="card">
-                    Create Post Now !
+                    Create a Post Now !
                 </div>
             </a>
-            <a href="">
+            <a href="{{ url_for('my_posts') }}">
                 <div class="card">
                     My Posts !
                 </div>
@@ -31,42 +32,22 @@
                     Settings
                 </div>
             </a>
-
         </div>
+    {% endif %}
     </div>
     <div class="col-md-7">
         {% for post in posts %}
-            <hr>
-            <div class="card">
-               <div class="card-header">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-1">
-                            <img class="article-img" src="{{url_for('static', filename='profile_pics/'+post.author.image_file)}}" alt="..." >
-                        </div>
-                        <div class="col-xl-8">
-                            <a class="username" href="#">{{post.author.username}}</a>
-                        </div>
-                        <div class="col-3">
-                            <a class="btn btn-primary follow-button" style="background-color: #55acee" href="#!" role="button">
-                                Follow
-                            </a>
-                        </div>
-                    </div>
+            <article class="media content-section">
+              <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+              <div class="media-body">
+                <div class="article-metadata">
+                  <a class="mr-2" href="#">{{ post.author.username }}</a>
+                  <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
                 </div>
+                <h2><a class="article-title" href=" {{ url_for('post' , post_id = post.id) }} ">{{ post.title }}</a></h2>
+                <p class="article-content">{{ post.content }}</p>
               </div>
-              <div class="card-body">
-                <h5 class="card-title">{{post.title}}</h5>
-                <p class="card-text">
-                  {{post.content}}
-                </p>
-              </div>
-              <div class="card-footer text-left">
-                <button type="button" class="btn btn-outline-dark" data-ripple-color="dark">I like that</button>
-
-                <h6 class="text-muted text-right">2 days ago</h6>
-                </div>
-            </div>
+            </article>
         {% endfor%}
     </div>
 </div>
