@@ -40,12 +40,12 @@
                     {{form.submit(class="btn btn-outline-info")}}
                 </div>
                 <small>
-                    <a href="{{ url_for('reset_request') }}">You forget your password</a>
+                    <a href="{{ url_for('users.reset_request') }}">You forget your password</a>
                 </small>
             </fieldset>
             <div>
                 <small>
-                    You don't have an account <a href="{{ url_for('register') }}">Register</a>
+                    You don't have an account <a href="{{ url_for('users.register') }}">Register</a>
                 </small>
             </div>
         </form>

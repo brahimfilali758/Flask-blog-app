@@ -1,67 +1,74 @@
 {% extends 'layout.html' %}
 
-{% block link_css %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css') }}">
-{% endblock %}
-
-
-{% block content %}
-<div class="row">
-    <div class="col-md-3">
+{% block sideBarLeft %}
     {% if current_user.is_authenticated %}
         <div class="profile">
             <img class="profile_picture" src="{{url_for('static', filename='profile_pics/'+current_user.image_file)}} ">
-            <a class="profile_name" href="">
-                {{current_user.username}}
-            </a>
+            <div class="names_hashtag">
+                <a class="profile_name" href="">
+                    {{current_user.email}}
+                </a>
+                <a href="profile_hashtag">
+                    @{{current_user.username}}
+                </a>
+            </div>
         </div>
 
-        <div>
-            <a href="{{ url_for('create_post') }}">
-                <div class="card">
-                    Create a Post Now !
-                </div>
-            </a>
-            <a href="{{ url_for('my_posts') }}">
-                <div class="card">
-                    My Posts !
-                </div>
-            </a>
-            <a href="">
-                <div class="card">
-                    Settings
-                </div>
-            </a>
-        </div>
+        <nav class = "right_nav">
+            <ul>
+                <li>
+                <a class="sidebarlink" href="{{ url_for('posts.create_post') }}">Create a Post Now !</a>
+                </li>
+                <li>
+                <a class="sidebarlink" href="{{ url_for('posts.my_posts') }}">My Posts !</a>
+                </li>
+                <li>
+                <a class="sidebarlink" href="">Settings</a>
+                </li>
+            </ul>
+        </nav>
     {% endif %}
-    </div>
-    <div class="col-md-7">
+
+{% endblock sideBarLeft %}
+
+{% block content %}
         {% for post in posts.items %}
-            <article class="media content-section">
-              <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
-              <div class="media-body">
-                <div class="article-metadata">
-                  <a class="mr-2" href="{{ url_for('user_posts' , username = post.author.username)}}">{{ post.author.username }}</a>
-                  <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
-                </div>
-                <h2><a class="article-title" href=" {{ url_for('post' , post_id = post.id) }} ">{{ post.title }}</a></h2>
-                <p class="article-content">{{ post.content }}</p>
+            <br>
+            <article class="my_article">
+              <div class="post_info">
+                 <img class="profile_picture" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+                  <div class="xc1565165">
+                      <a class="post_username" href="{{ url_for('posts.user_posts' , username = post.author.username)}}">@{{ post.author.username }}</a>
+                      <small class="">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+                  </div>
               </div>
+              <div class="post">
+                <h2><a class="post_title" href=" {{ url_for('posts.post' , post_id = post.id) }} ">{{ post.title }}</a></h2>
+                <p class="post_content">{{ post.content }}</p>
+              </div>
+                  <a  id="btn" class="" href='#'>
+                    <span class="noselect">Read More</span>
+                    <div id="circle"></div>
+                  </a>
             </article>
+            <br>
         {% endfor %}
 
         {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
             {% if page_num %}
                 {% if posts.page == page_num %}
-                    <a class="btn btn-info" href="{{url_for('home' , page = page_num)}}">{{page_num}}</a>
+                    <a class="btn btn-info" href="{{url_for('main.home' , page = page_num)}}">{{page_num}}</a>
                 {% else %}
-                    <a class="btn btn-outilne-info" href="{{url_for('home' , page = page_num)}}">{{page_num}}</a>
+                    <a class="btn btn-outilne-info" href="{{url_for('main.home' , page = page_num)}}">{{page_num}}</a>
                 {% endif %}
             {% else %}
                 ...
             {% endif %}
         {% endfor %}
-    </div>
-</div>
 
 {% endblock content %}
+
+
+{% block sideBarRight %}
+
+{% endblock sideBarRight %}
