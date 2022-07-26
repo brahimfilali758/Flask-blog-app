@@ -1,5 +1,3 @@
-Hello people ..
 
-this is a blog web app created with python and flask 
+a miniature social network created with the framwork Flask
 
-enjoy !
